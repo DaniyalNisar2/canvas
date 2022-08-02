@@ -96,7 +96,7 @@
                         <div class="form-group mt-2">
                             <label class="text-white" for="imageFile" class="form-label">Upload Image</label>
                             <input type="file" class="form-control form-control-sm" id="imageFile" accept="image/*"
-                                onchange="previewimage(this)">
+                                change="getFile($event)" onchange="previewimage(this)">
                             <p id="error"></p>
                         </div>
                         <div class="form-group my-2">
