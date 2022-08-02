@@ -118,10 +118,30 @@
 
 
         <script>
+            function wrapText(context, text, x, y, maxWidth, lineHeight) {
+                var words = text.split(' ');
+                var line = '';
+
+                for (var n = 0; n < words.length; n++) {
+                    var testLine = line + words[n] + ' ';
+                    var
+                        metrics = context.measureText(testLine);
+                    var testWidth = metrics.width;
+                    if (testWidth > maxWidth && n >
+                        0) {
+                        canvas.style.width = canvas.width;
+                        canvas.style.height = canvas.height;
+                        context.fillText(line, x, y);
+                        line = words[n] + ' ';
+                        y += lineHeight;
+                    } else {
+                        line = testLine;
+                    }
+                }
+                context.fillText(line, x, y);
+            }
             var canvas = document.getElementById("myCanvas");
             var context = canvas.getContext("2d");
-
-
 
             function previewimage(input) {
                 var reader = new FileReader();
@@ -162,6 +182,7 @@
 
                 var img = document.getElementById('preview');
 
+
                 canvas.width = img.width;
                 canvas.height = img.height;
 
@@ -188,8 +209,10 @@
                 context.fillText(text1, canvas.width / 2, canvas.height - 8);
                 context.font = fsize + "px serif";
                 context.fillStyle = icolor + "";
-
-                context.fillText(text2, canvas.width / 2, canvas.height / 2);
+                var maxWidth = canvas.width;
+                var lineHeight = 25;
+                wrapText(context, text2, canvas.width / 2, (canvas.height / 2) - 10, maxWidth, lineHeight);
+                // context.fillText(text2, canvas.width / 2, canvas.height / 2);
 
                 e.preventDefault();
             });
